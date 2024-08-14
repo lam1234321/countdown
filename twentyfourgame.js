@@ -55,7 +55,7 @@ window.initGame = (React) => {
         justifyContent: 'center',
         height: '100vh',
         fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f0f0f0'
+        backgroundColor: '#73d668'
       } },
       React.createElement('h2', { style: { marginBottom: '20px' } }, "24 Game"),
       React.createElement(
@@ -73,7 +73,7 @@ window.initGame = (React) => {
             height: '50px',
             lineHeight: '50px',
             textAlign: 'center',
-            backgroundColor: '#73d668',
+            backgroundColor: '#000000',
             border: '1px solid #ccc',
             margin: '5px'
           } }, num)
