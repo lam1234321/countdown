@@ -3,10 +3,10 @@
 window.initGame = (React, assetsUrl) => {
   const { useState, useEffect } = React;
 
-  const WhackAMole = ({ assetsUrl }) => {
+  const Timer = ({ assetsUrl }) => {
     const [score, setScore] = useState(0);
     const [activeMole, setActiveMole] = useState(null);
-    const [timer, setTimer] = useState(60);
+    const [timer, setTimer] = useState(10.00);
 
     useEffect(() => {
       const interval = setInterval(() => {
@@ -14,8 +14,8 @@ window.initGame = (React, assetsUrl) => {
       }, 1000);
 
       const timerInterval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
+        setTimer((prevTimer) => (prevTimer - 0.01).toFixed(2));
+      }, 10);
 
       return () => {
         clearInterval(interval);
@@ -24,7 +24,7 @@ window.initGame = (React, assetsUrl) => {
     }, []);
 
     useEffect(() => {
-      if (timer === 0) {
+      if (timer <= 0) {
         // Game over
         alert(`Game over! Your score is ${score}`);
       }
@@ -42,7 +42,7 @@ window.initGame = (React, assetsUrl) => {
       { className: "whack-a-mole" },
       React.createElement('h2', null, "Whack-a-Mole"),
       React.createElement('p', null, `Score: ${score}`),
-      React.createElement('p', null, `Time: ${timer}`),
+      React.createElement('p', null, `Time: ${timer.toFixed(2)}`),
       React.createElement(
         'div',
         { className: "game-board" },
@@ -61,7 +61,7 @@ window.initGame = (React, assetsUrl) => {
     );
   };
 
-  return () => React.createElement(WhackAMole, { assetsUrl: assetsUrl });
+  return () => React.createElement(Timer, { assetsUrl: assetsUrl });
 };
 
 console.log('Whack-a-Mole game script loaded');
