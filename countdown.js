@@ -1,71 +1,67 @@
-import React, { useState, useEffect } from 'react';
+// This would be stored in the 'src' folder of the GitHub repository
+// whack-a-mole.js
+window.initGame = (React, assetsUrl) => {
+  const { useState, useEffect } = React;
 
-const CountdownGame = () => {
-  const [countdown, setCountdown] = useState(null);
-  const [isActive, setIsActive] = useState(false);
-  const [randomNumber, setRandomNumber] = useState(null);
-  const [resultTimer, setResultTimer] = useState(null);
+  const WhackAMole = ({ assetsUrl }) => {
+    const [score, setScore] = useState(0);
+    const [activeMole, setActiveMole] = useState(null);
+    const [timer, setTimer] = useState(60);
 
-  useEffect(() => {
-    let timer;
-    let resultTimer;
-    if (isActive) {
-      const randomStartingCount = Math.floor(Math.random() * 11) + 10;
-      setCountdown(randomStartingCount);
-      setRandomNumber(Math.floor(Math.random() * 100));
-      timer = setInterval(() => {
-        setCountdown((prevCount) => (prevCount - 1));
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setActiveMole(Math.floor(Math.random() * 9));
       }, 1000);
-    } else {
-      clearInterval(timer);
-      if (countdown === 0) {
-        setResultTimer(5);
-        resultTimer = setInterval(() => {
-          setResultTimer((prevCount) => (prevCount - 1));
-        }, 1000);
+
+      const timerInterval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(interval);
+        clearInterval(timerInterval);
+      };
+    }, []);
+
+    useEffect(() => {
+      if (timer === 0) {
+        // Game over
+        alert(`Game over! Your score is ${score}`);
       }
-    }
-    return () => {
-      clearInterval(timer);
-      clearInterval(resultTimer);
+    }, [timer, score]);
+
+    const whackMole = (index) => {
+      if (index === activeMole) {
+        setScore(score + 1);
+        setActiveMole(null);
+      }
     };
-  }, [isActive, countdown]);
 
-  const handleStart = () => {
-    setIsActive(true);
+    return React.createElement(
+      'div',
+      { className: "whack-a-mole" },
+      React.createElement('h2', null, "Whack-a-Mole"),
+      React.createElement('p', null, `Score: ${score}`),
+      React.createElement('p', null, `Time: ${timer}`),
+      React.createElement(
+        'div',
+        { className: "game-board" },
+        Array(9).fill().map((_, index) =>
+          React.createElement(
+            'div',
+            {
+              key: index,
+              className: `mole ${index === activeMole ? 'active' : ''}`,
+              onClick: () => whackMole(index)
+            },
+            index === activeMole && React.createElement('img', { src: `${assetsUrl}/mole.png`, alt: "Mole" })
+          )
+        )
+      )
+    );
   };
 
-  const handleStop = () => {
-    setIsActive(false);
-  };
-
-  return (
-    <div className="countdown-game">
-      <h2>Countdown Game</h2>
-      {countdown !== null && (
-        <p>Time remaining: {countdown}</p>
-      )}
-      {randomNumber !== null && (
-        <p>Random number: {randomNumber}</p>
-      )}
-      {resultTimer !== null && resultTimer > 0 && (
-        <p>Result timer: {resultTimer}</p>
-      )}
-      {!isActive ? (
-        <button onClick={handleStart}>Start</button>
-      ) : (
-        <button onClick={handleStop}>Stop</button>
-      )}
-    </div>
-  );
+  return () => React.createElement(WhackAMole, { assetsUrl: assetsUrl });
 };
 
-function App() {
-  return (
-    <div className="App">
-      <CountdownGame />
-    </div>
-  );
-}
-
-export default App;
+console.log('Whack-a-Mole game script loaded');
