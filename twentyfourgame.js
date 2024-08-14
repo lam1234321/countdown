@@ -6,10 +6,19 @@ window.initGame = (React) => {
     const [numbers, setNumbers] = useState([]);
     const [target, setTarget] = useState(24);
     const [result, setResult] = useState(null);
+    const [timer, setTimer] = useState(30);
+    const [timerInterval, setTimerInterval] = useState(null);
 
     useEffect(() => {
       generateNumbers();
     }, []);
+
+    useEffect(() => {
+      if (timer === 0) {
+        setResult("Time's up!");
+        clearInterval(timerInterval);
+      }
+    }, [timer, timerInterval]);
 
     const generateNumbers = () => {
       const newNumbers = [];
@@ -19,6 +28,11 @@ window.initGame = (React) => {
       setNumbers(newNumbers);
       setTarget(24);
       setResult(null);
+      setTimer(30);
+      clearInterval(timerInterval);
+      setTimerInterval(setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000));
     };
 
     const handleCalculate = () => {
@@ -28,6 +42,10 @@ window.initGame = (React) => {
       } else {
         setResult(result);
       }
+      clearInterval(timerInterval);
+      setTimerInterval(setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000));
     };
 
     const calculate = (nums) => {
@@ -84,6 +102,7 @@ window.initGame = (React) => {
         )
       ),
       React.createElement('p', { style: { marginBottom: '20px' } }, `Target: ${target}`),
+      React.createElement('p', { style: { marginBottom: '20px' } }, `Time: ${timer} seconds`),
       result
         ? React.createElement('p', { style: { marginBottom: '20px' } }, `Result: ${result}`)
         : React.createElement('button', { onClick: handleCalculate, style: {
