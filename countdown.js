@@ -10,10 +10,10 @@ window.initGame = (React) => {
     useEffect(() => {
       let timer;
       if (isActive) {
-        const randomNumber = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
-        setCountdown(randomNumber);
+        const randomStartingCount = Math.floor(Math.random() * 11) + 10;
+        setCountdown(randomStartingCount);
         timer = setInterval(() => {
-          setCountdown((prevCount) => prevCount - 1);
+          setCountdown((prevCount) => (prevCount - 1));
         }, 1000);
       } else {
         clearInterval(timer);
@@ -33,7 +33,11 @@ window.initGame = (React) => {
       'div',
       { className: "countdown-game" },
       React.createElement('h2', null, "Countdown Game"),
-      countdown !== null && React.createElement('p', null, `Time remaining: ${countdown}`),
+      countdown !== null && (
+        <p>
+          Time remaining: {countdown}
+        </p>
+      ),
       !isActive
         ? React.createElement('button', { onClick: handleStart }, "Start")
         : React.createElement('button', { onClick: handleStop }, "Stop")
