@@ -23,7 +23,11 @@ window.initGame = (React) => {
 
     const handleCalculate = () => {
       const result = calculate(numbers);
-      setResult(result);
+      if (result === null) {
+        setResult("No Result");
+      } else {
+        setResult(result);
+      }
     };
 
     const calculate = (nums) => {
