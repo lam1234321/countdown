@@ -55,7 +55,7 @@ window.initGame = (React) => {
         justifyContent: 'center',
         height: '100vh',
         fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#73d668'
+        background: linear-gradient(#e66465, #9198e5);
       } },
       React.createElement('h2', { style: { marginBottom: '20px' } }, "24 Game"),
       React.createElement(
