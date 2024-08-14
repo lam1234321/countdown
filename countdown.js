@@ -1,98 +1,71 @@
-import React, { useState, useEffect } from 'react';
+// 24-game.js
+window.initGame = (React) => {
+  const { useState, useEffect } = React;
 
-const GameApp = () => {
-  // Whack-a-Mole state
-  const [whackScore, setWhackScore] = useState(0);
-  const [whackActiveMole, setWhackActiveMole] = useState(null);
+  const TwentyFourGame = () => {
+    const [numbers, setNumbers] = useState([]);
+    const [target, setTarget] = useState(24);
+    const [result, setResult] = useState(null);
 
-  // Countdown game state
-  const [countdownValue, setCountdownValue] = useState(10);
-  const [countdownRandomNumber, setCountdownRandomNumber] = useState(0);
-  const [countdownIsRunning, setCountdownIsRunning] = useState(false);
+    useEffect(() => {
+      generateNumbers();
+    }, []);
 
-  // Whack-a-Mole game logic
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWhackActiveMole(Math.floor(Math.random() * 9));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    const generateNumbers = () => {
+      const newNumbers = [];
+      for (let i = 0; i < 4; i++) {
+        newNumbers.push(Math.floor(Math.random() * 10) + 1);
+      }
+      setNumbers(newNumbers);
+      setTarget(24);
+      setResult(null);
+    };
 
-  const whackMole = (index) => {
-    if (index === whackActiveMole) {
-      setWhackScore(whackScore + 1);
-      setWhackActiveMole(null);
-    }
+    const handleCalculate = () => {
+      const result = calculate(numbers);
+      setResult(result);
+    };
+
+    const calculate = (nums) => {
+      const ops = ['+', '-', '*', '/'];
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          for (let k = 0; k < 4; k++) {
+            const a = nums[0];
+            const b = nums[1];
+            const c = nums[2];
+            const d = nums[3];
+            const exp = `(${a} ${ops[i]} ${b}) ${ops[j]} (${c} ${ops[k]} ${d})`;
+            const value = eval(exp);
+            if (value === target) {
+              return exp;
+            }
+          }
+        }
+      }
+      return null;
+    };
+
+    return React.createElement(
+      'div',
+      { className: "twenty-four-game" },
+      React.createElement('h2', null, "24 Game"),
+      React.createElement(
+        'div',
+        { className: "numbers" },
+        numbers.map((num, index) =>
+          React.createElement('span', { key: index, className: "number" }, num)
+        )
+      ),
+      React.createElement('p', null, `Target: ${target}`),
+      result
+        ? React.createElement('p', null, `Result: ${result}`)
+        : React.createElement('button', { onClick: handleCalculate }, "Calculate"),
+      React.createElement('button', { onClick: generateNumbers }, "New Game")
+    );
   };
 
-  // Countdown game logic
-  useEffect(() => {
-    let interval;
-    if (countdownIsRunning) {
-      interval = setInterval(() => {
-        setCountdownValue((prevCountdown) => prevCountdown - 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [countdownIsRunning]);
-
-  useEffect(() => {
-    if (countdownValue === 0) {
-      setCountdownIsRunning(false);
-    }
-  }, [countdownValue]);
-
-  useEffect(() => {
-    setCountdownRandomNumber(Math.floor(Math.random() * 9) + 1);
-  }, [countdownIsRunning]);
-
-  const handleCountdownStart = () => {
-    setCountdownIsRunning(true);
-  };
-
-  const handleCountdownPause = () => {
-    setCountdownIsRunning(false);
-  };
-
-  const handleCountdownReset = () => {
-    setCountdownValue(10);
-    setCountdownIsRunning(false);
-  };
-
-  return (
-    <div className="game-app">
-      {/* Whack-a-Mole */}
-      <div className="whack-a-mole">
-        <h2>Whack-a-Mole</h2>
-        <p>Score: {whackScore}</p>
-        <div className="game-board">
-          {Array(9).fill().map((_, index) => (
-            <div
-              key={index}
-              className={`mole ${index === whackActiveMole ? 'active' : ''}`}
-              onClick={() => whackMole(index)}
-            >
-              {index === whackActiveMole && (
-                <img src="/mole.png" alt="Mole" />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Countdown Game */}
-      <div className="countdown-game">
-        <h2>Countdown Game</h2>
-        <p>Countdown: {countdownValue}</p>
-        <p>Random Number: {countdownRandomNumber}</p>
-        <div>
-          <button onClick={handleCountdownStart}>Start</button>
-          <button onClick={handleCountdownPause}>Pause</button>
-          <button onClick={handleCountdownReset}>Reset</button>
-        </div>
-      </div>
-    </div>
-  );
+  return () => React.createElement(TwentyFourGame, null);
 };
 
-export default GameApp;
+console.log('24 game script loaded');
