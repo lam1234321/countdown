@@ -73,7 +73,7 @@ window.initGame = (React) => {
             height: '50px',
             lineHeight: '50px',
             textAlign: 'center',
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#73d668',
             border: '1px solid #ccc',
             margin: '5px'
           } }, num)
