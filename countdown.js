@@ -3,7 +3,7 @@
 window.initGame = (React, assetsUrl) => {
   const { useState, useEffect } = React;
 
-  const CountdownTimer = ({ assetsUrl }) => {
+  const WhackAMole = ({ assetsUrl }) => {
     const [score, setScore] = useState(0);
     const [activeMole, setActiveMole] = useState(null);
     const [timer, setTimer] = useState(60);
