@@ -54,7 +54,7 @@ window.initGame = (React) => {
         'div',
         { className: "numbers" },
         numbers.map((num, index) =>
-          React.createElement('span', { key: index, className: "number" }, num)
+          React.createElement('span', { key: index, className: "number" }, `${num} `)
         )
       ),
       React.createElement('p', null, `Target: ${target}`),
