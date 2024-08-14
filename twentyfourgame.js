@@ -48,20 +48,57 @@ window.initGame = (React) => {
 
     return React.createElement(
       'div',
-      { className: "twenty-four-game" },
-      React.createElement('h2', null, "24 Game"),
+      { className: "twenty-four-game", style: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f0f0f0'
+      } },
+      React.createElement('h2', { style: { marginBottom: '20px' } }, "24 Game"),
       React.createElement(
         'div',
-        { className: "numbers" },
+        { className: "numbers", style: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          marginBottom: '20px'
+        } },
         numbers.map((num, index) =>
-          React.createElement('span', { key: index, className: "number" }, `${num} `)
+          React.createElement('div', { key: index, className: "number-square", style: {
+            display: 'inline-block',
+            width: '50px',
+            height: '50px',
+            lineHeight: '50px',
+            textAlign: 'center',
+            backgroundColor: '#f0f0f0',
+            border: '1px solid #ccc',
+            margin: '5px'
+          } }, num)
         )
       ),
-      React.createElement('p', null, `Target: ${target}`),
+      React.createElement('p', { style: { marginBottom: '20px' } }, `Target: ${target}`),
       result
-        ? React.createElement('p', null, `Result: ${result}`)
-        : React.createElement('button', { onClick: handleCalculate }, "Calculate"),
-      React.createElement('button', { onClick: generateNumbers }, "New Game")
+        ? React.createElement('p', { style: { marginBottom: '20px' } }, `Result: ${result}`)
+        : React.createElement('button', { onClick: handleCalculate, style: {
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          padding: '10px 20px',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          marginRight: '10px'
+        } }, "Calculate"),
+      React.createElement('button', { onClick: generateNumbers, style: {
+        backgroundColor: '#008CBA',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer'
+      } }, "New Game")
     );
   };
 
