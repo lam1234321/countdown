@@ -14,7 +14,10 @@ window.initGame = (React, assetsUrl) => {
       }, 1000);
 
       const timerInterval = setInterval(() => {
-        setTimer((prevTimer) => (prevTimer - 0.01).toFixed(2));
+        setTimer((prevTimer) => {
+          const newTimer = (prevTimer - 0.01).toFixed(2);
+          return newTimer >= 0.00 ? newTimer : '0.00';
+        });
       }, 10);
 
       return () => {
@@ -24,7 +27,7 @@ window.initGame = (React, assetsUrl) => {
     }, []);
 
     useEffect(() => {
-      if (timer <= 0) {
+      if (timer === '0.00') {
         // Game over
         alert(`Game over! Your score is ${score}`);
       }
@@ -42,7 +45,7 @@ window.initGame = (React, assetsUrl) => {
       { className: "whack-a-mole" },
       React.createElement('h2', null, "Whack-a-Mole"),
       React.createElement('p', null, `Score: ${score}`),
-      React.createElement('p', null, `Time: ${timer.toFixed(2)}`),
+      React.createElement('p', null, `Time: ${timer}s`),
       React.createElement(
         'div',
         { className: "game-board" },
@@ -54,14 +57,4 @@ window.initGame = (React, assetsUrl) => {
               className: `mole ${index === activeMole ? 'active' : ''}`,
               onClick: () => whackMole(index)
             },
-            index === activeMole && React.createElement('img', { src: `${assetsUrl}/mole.png`, alt: "Mole" })
-          )
-        )
-      )
-    );
-  };
-
-  return () => React.createElement(Timer, { assetsUrl: assetsUrl });
-};
-
-console.log('Whack-a-Mole game script loaded');
+            index === activeMole && React.createElement('img', { src: `${assetsUrl}/
