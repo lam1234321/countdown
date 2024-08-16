@@ -25,6 +25,10 @@ window.initGame = (React) => {
       for (let i = 0; i < 4; i++) {
         newNumbers.push(Math.floor(Math.random() * 10) + 1);
       }
+      resetGame(newNumbers);
+    };
+
+    const resetGame = (newNumbers) => {
       setNumbers(newNumbers);
       setTarget(24);
       setResult(null);
@@ -36,16 +40,11 @@ window.initGame = (React) => {
     };
 
     const handleCalculate = () => {
-      const result = calculate(numbers);
-      if (result === null) {
-        setResult("No Result");
-      } else {
-        setResult(result);
+      if (timer > 0) {
+        clearInterval(timerInterval);
       }
-      clearInterval(timerInterval);
-      setTimerInterval(setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000));
+      const calculationResult = calculate(numbers);
+      setResult(calculationResult === null ? "No Result" : calculationResult);
     };
 
     const calculate = (nums) => {
