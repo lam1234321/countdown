@@ -21,11 +21,15 @@ window.initGame = (React) => {
     }, [timer, timerInterval]);
 
     const generateNumbers = () => {
-      const newNumbers = [];
-      for (let i = 0; i < 4; i++) {
-        newNumbers.push(Math.floor(Math.random() * 10) + 1);
-      }
-      resetGame(newNumbers);
+      const validSets = [
+        [1, 8, 6, 3], // Example set that can equal 24
+        [2, 2, 6, 6], // Another example
+        [4, 4, 4, 4], // And another
+        [5, 5, 5, 4], // Etc.
+      ];
+      const randomSet =
+        validSets[Math.floor(Math.random() * validSets.length)];
+      resetGame(randomSet);
     };
 
     const resetGame = (newNumbers) => {
